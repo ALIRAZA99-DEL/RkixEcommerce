@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Controllers\admin_dashbord;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Category;
+
+class CategoryController extends Controller
+{
+    //
+public function store(Request $request)
+{   $image = '';
+    if($request->hasfile('image'))
+    
+    {
+        $name = time().'_'.$request->file('image')->getClientOriginalName();
+        $request->file('image')->move(public_path('admin/images'), $name);
+        $image = $name;
+    }
+    $insert = Category::create([
+              
+        'name'=>$request->name,
+        'description'=>$request->description,
+        'image'=>$image
+
+    ]);
+    return redirect('views-category');
+    
+    
+
+    
+}
+    public function index ()
+    {
+        $categories = Category::all();
+        return view('admin.categories.list',compact('categories'));
+    }
+
+    public function destroy($id)
+    {
+        
+        
+        return redirect('views-category');
+    }
+    public function edit($id)
+    {
+        
+        
+    }
+    public function update(Request $request, $id)
+    {
+       
+        
+    }
+        
+}
